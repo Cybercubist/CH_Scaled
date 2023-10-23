@@ -119,7 +119,7 @@ def pl_preprocessing (open_list, high_list, low_list, close_list):
     my_array = np.transpose(my_array)
 
     return my_array
-    
+
 def make_isto(array):
     
     isto_array = np.zeros((260, 4))
@@ -149,7 +149,7 @@ class candle_emotion:
         self.name = name
         self.number = number
         self.k_growth = k_growth
-        self.k_acceleration = k_acceleration
+        self.k_acceleration = k_acceleration 
         
     def process(self, isto_array, emotion_array, acceleration_array):
         
@@ -172,8 +172,6 @@ class candle_emotion:
                                             + isto_array[i][self.number] * self.k_growth * 0.01 + 0.1 +
                                             + (acceleration_array[i][self.number] * 0.2-0.1))/1.2
                                             #+ 0)/1.2
-            
-            #print(acceleration_array[i][self.number] * 0.1-0.05)
             
             if emotion_array[i+1][self.number] < 0:
                 emotion_array[i+1][self.number] = 0
@@ -209,17 +207,19 @@ def calculate_k(likelihood_dict1, likelihood_dict2, emotion_array):
     k = 0
     k1 = (likelihood_dict1['uptrend']*(-0.4) + likelihood_dict1['downtrend']*0.4 + likelihood_dict1['upburst']*(-0.8) +
     + likelihood_dict1['downburst']*0.6 + likelihood_dict1['stagnation']*(-0.6) + likelihood_dict1['rebound_lately']*1 +
-    + likelihood_dict1['correction_lately']*(-0.8) + likelihood_dict1['up_and_calm']*(-0.6) + likelihood_dict1['down_and_calm']*1 +
-    + likelihood_dict1['down_and_up']*0.4 + likelihood_dict1['up_and_down']*(-0.2)) / 100
+    + likelihood_dict1['correction_lately']*(-1) + likelihood_dict1['up_and_calm']*(-0.4) + likelihood_dict1['down_and_calm']*1 +
+    + likelihood_dict1['down_and_up']*(-0.2) + likelihood_dict1['up_and_down']*0.4) / 100
     
-    k2 = (likelihood_dict2['uptrend']*(-0.2) + likelihood_dict2['downtrend']*0.2 + likelihood_dict2['upburst']*(-0.6) +
-    + likelihood_dict2['downburst']*0.2 + likelihood_dict2['stagnation']*0 + likelihood_dict2['rebound_lately']*1 +
-    + likelihood_dict2['correction_lately']*(-1) + likelihood_dict2['up_and_calm']*(-0.6) + likelihood_dict2['down_and_calm']*0.8 +
-    + likelihood_dict2['down_and_up']*0.6 + likelihood_dict2['up_and_down']*(-0.4)) / 100
+    k2 = (likelihood_dict2['uptrend']*0 + likelihood_dict2['downtrend']*(-1) + likelihood_dict2['upburst']*0.6 +
+    + likelihood_dict2['downburst']*(-1) + likelihood_dict2['stagnation']*0.8 + likelihood_dict2['rebound_lately']*0.4 +
+    + likelihood_dict2['correction_lately']*(-0.6) + likelihood_dict2['up_and_calm']*0 + likelihood_dict2['down_and_calm']*0.4 +
+    + likelihood_dict2['down_and_up']*0.8 + likelihood_dict2['up_and_down']*(-0.4)) / 100
     
     k3 = (emotion_array[260, 0] * 0.8 + emotion_array[260, 1] * (-1) + emotion_array[260, 2] * (-0.2) + emotion_array[260, 3] * 0.4) * 4
     
     k = k1 + k2 + k3
+
+    return k
 
 def anomaly_eval (price_array, timeframe1, timeframe2):
     
@@ -244,7 +244,7 @@ def anomaly_eval (price_array, timeframe1, timeframe2):
     
     average_change_t2 = sum(change_list_t2) / len(change_list_t2)
     
-    #anomaly aret calculation
+    #anomaly rate calculation
     
     anomaly_rate = average_change_t2 / average_change 
     
