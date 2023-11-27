@@ -15,4 +15,8 @@ Besides that, CH has some <ins>secondary features</ins>, like <i>"rank all asset
 
 Overall, CandleHandle is quite simple yet powerful tool for fast technical analysis of large lists of assets. It won't make you rich, but can significantly improve your efficiency on markets. If it's used wisely!
 
+**Current version:** <ins>CandleHandle Scaled 1.0.0.</ins> CH_Scaled has it's own version number since 27.11.2023
+
+**Updates:** Coming soon...
+
 **Disclaimer**: <i>CandleHandle analysis is not a personal investment advice. You should manage your risks carefully, the author and developers is not responsible for your losses!</i>
